@@ -12,3 +12,18 @@ Player.prototype.changeTurns = function(){
     this.isActive = true;
   }
 };
+
+function Board() {
+  var boardSize = 3;
+  var board = [];
+//create empty 2d array  
+  for(var row =0; row < boardSize; row++) {
+    //create outer array row
+    board.push([]);
+    for(var col = 0; col < boardSize; col++) {
+      //creates the inner null spaces that will hold the coords
+      board[row].push(null);
+    }
+  }
+
+}
