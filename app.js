@@ -120,3 +120,12 @@ Game.prototype.whoWins = function(){
   return winner;
 
 }; //end of whoWins 
+
+var makeBoardBackground = function(){
+  $("#inner-div").append("<div class='game-area'><div class='row'><div class='col-md-4 odd' id='tr'></div><div class='col-md-4 even' id='tc'></div><div class='col-md-4 odd' id='tl'></div></div><div class='row'><div class='col-md-4 even' id='mr'></div><div class='col-md-4 odd' id='mc'></div><div class='col-md-4 even' id='ml'></div></div><div class='row'><div class='col-md-4 odd' id='br'></div><div class='col-md-4 even' id='bc'></div><div class='col-md-4 odd' id='bl'></div></div></div>");
+};
+
+$(document).ready(function(){
+
+
+});
