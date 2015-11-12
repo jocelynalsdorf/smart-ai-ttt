@@ -17,7 +17,7 @@ function Board() {
   var boardSize = 3;
   var board = [];
 //create empty 2d array  
-  for(var row =0; row < boardSize; row++) {
+  for(var row = 0; row < boardSize; row++) {
     //create outer array row
     board.push([]);
     for(var col = 0; col < boardSize; col++) {
@@ -25,5 +25,19 @@ function Board() {
       board[row].push(null);
     }
   }
-
+  this.board = board;
 }
+
+Board.prototype.mark = function(xcord, ycord, marker) {
+  if(!this.isMarkedYet(xcord, ycord) {
+    this.board = marker;
+  }
+}
+
+Board.prototype.isMarkedYet = function() {
+  if(this.board[xcord][ycord] !== null) {
+    return this.board[xcord][ycord];
+  } else {
+    return false;
+  }
+};
