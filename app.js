@@ -7,7 +7,7 @@ function Player(marker, isActive) {
 //change turns by toggling isActive 
 Player.prototype.changeTurns = function(){
   if (this.isActive === true) {
-    this isActive = false;   
+    this.isActive = false;   
   } else {
     this.isActive = true;
   }
@@ -29,7 +29,7 @@ function Board() {
 }
 
 Board.prototype.mark = function(xcord, ycord, marker) {
-  if(!this.isMarkedYet(xcord, ycord) {
+  if(!this.isMarkedYet(xcord, ycord)) {
     this.board = marker;
   }
 }
@@ -44,7 +44,7 @@ Board.prototype.isMarkedYet = function() {
 
 function Game() {
   var playerOne = new Player("X", true);
-  var playerTwo = newPlayer("O", false);
+  var playerTwo = new Player("O", false);
   var board = new Board();
   this.playerOne = playerOne;
   this.playerTwo = playerTwo;
@@ -126,6 +126,28 @@ var makeBoardBackground = function(){
 };
 
 $(document).ready(function(){
+  //initialize as false so that players can choose to play the computer
+  var computerPlay = false;
+  var xGuess;
+  var yGuess;
+  //hide any buttons or text that cause confusion on what options are
+  $("#score-div").hide();
+  $("#computer").hide();
+  $("#message").hide();
 
+  //click event to start game:loads board
+  $("#play").click(function(event){
+    event.preventDefault();  
+    //set up game
+    makeBoardBackground();
+    var game = new Game();
+    //set board to the board prop of this new game object
+    var board = game.board;
+    $(".turn").text(" ");
+    //show an X or O
+    $(".turn").text(game.getTurns().marker);
+    $("#computer").show();
+
+  });//end of play-click event
 
 });
