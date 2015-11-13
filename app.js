@@ -147,6 +147,7 @@ $(document).ready(function(){
     //show an X or O
     $(".turn").text(game.getTurns().marker);
     $("#computer").show();
+    $("#score-div").show();
 
   });//end of play-click event
 
