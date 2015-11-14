@@ -30,11 +30,11 @@ function Board() {
 
 Board.prototype.mark = function(xcord, ycord, marker) {
   if(!this.isMarkedYet(xcord, ycord)) {
-    this.board = marker;
+    this.board[xcord][ycord] = marker;
   }
-}
+};
 
-Board.prototype.isMarkedYet = function() {
+Board.prototype.isMarkedYet = function(xcord, ycord) {
   if(this.board[xcord][ycord] !== null) {
     return this.board[xcord][ycord];
   } else {
@@ -70,39 +70,42 @@ Game.prototype.whoWins = function(){
   var winner = false;
 //check for x axis wins
   for(var x = 0; x < 3; x++) {
-    if( (myBoard[x][0] === myBoard[x][1]) && (myBoard[x][2] === myBoard[x][0]) ) {
+    if( ((myBoard[x][0]) === (myBoard[x][1])) && ((myBoard[x][2]) === (myBoard[x][0])) ) {
       if(this.playerOne.marker === myBoard[x][0]){
         winner = this.playerOne;
       }
-    } else if(this.playerTwo.marker === myBoard[x][0]) {
+    else if(this.playerTwo.marker === myBoard[x][0]) {
         winner = this.playerTwo;
+      }
     }
   }
-
 //check for y axis wins
   for(var y = 0; y < 3; y++) {
-    if((myBoard[0][y] === myBoard[1][y]) && (myBoard[0][y] === myBoard[2][y])) {
+    if( ((myBoard[0][y]) === (myBoard[1][y])) && ((myBoard[0][y]) === (myBoard[2][y])) ) {
       if(this.playerOne.marker === myBoard[0][y]) {
         winner = this.playerOne;
-      } else if(this.playerTwo.marker === myBoard[0][y]) {
+      }
+      else if(this.playerTwo.marker === myBoard[0][y]) {
         winner = this.playerTwo;
       }
     }
   }
   //check for diagonal wins
-  if((myBoard[0][0] === myBoard[1][1]) && (myBoard[2][2] === myBoard[0][0])) {
+  if(( (myBoard[0][0]) === (myBoard[1][1])) && ((myBoard[2][2]) === (myBoard[0][0])) ) {
     if(this.playerOne.marker === myBoard[0][0]) {
       winner = this.playerOne;
     }else if(this.playerTwo.marker === myBoard[0][0]) {
       winner = this.playerTwo;
     }
-  } else if((myBoard[2][0] === myBoard[1][1]) && myBoard[0][2] === [2][0]) {
+  } else if(( (myBoard[2][0]) === (myBoard[1][1])) && ((myBoard[0][2]) === (myBoard[2][0])) ) {
     if(this.playerOne.marker === myBoard[2][0]) {
       winner = this.playerOne;
-    } else if(this.playerTwo.marker === myBoard[2][0]) {
+    }
+    else if(this.playerTwo.marker === myBoard[2][0]) {
       winner = this.playerTwo;
     }
   }
+
 //check for draw by seeing if any board spaces with a null value remain
   if(winner === false) {
      for(var row = 0; row < 3; row++) {
@@ -114,8 +117,8 @@ Game.prototype.whoWins = function(){
           winner = "draw";
         }
       }
-     }
-  }//edn of draw
+    }
+  }//end of draw
  
   return winner;
 
@@ -171,7 +174,7 @@ $(document).ready(function(){
 
     //click to mark on squares functions
     $("#tr").on("click", function(){
-
+      console.log(game.getTurns());
       if((!(board.isMarkedYet(0, 0))) && (game.whoWins() === false)) {
         game.board.mark(0, 0, game.getTurns().marker);
         $("#tr").text(game.getTurns().marker);
@@ -181,7 +184,7 @@ $(document).ready(function(){
     });
 
     $("#tc").on("click", function(){
-
+ console.log(game.getTurns());
       if((!(board.isMarkedYet(0, 1))) && (game.whoWins() === false)) {
         game.board.mark(0, 1, game.getTurns().marker);
         $("#tc").text(game.getTurns().marker);
@@ -191,6 +194,7 @@ $(document).ready(function(){
     });
 
     $("#tl").on("click", function(){
+       console.log(game.getTurns());
       if((!(board.isMarkedYet(0, 2))) && (game.whoWins() === false)) {
         game.board.mark(0, 2, game.getTurns().marker);
         $("#tl").text(game.getTurns().marker);
@@ -263,9 +267,72 @@ $(document).ready(function(){
      $("#message").show().addClass('animated bounceInLeft');
 
     });
+var compuTurn = function() {
+    var computerMarker;
+    var xGuess = Math.floor(Math.random() * 3);
+    var yGuess = Math.floor(Math.random() * 3);
+
+    if(xGuess === 0 && yGuess === 0) {
+    computerMarker = "#tr";
+    }
+    if(xGuess === 0 && yGuess === 1) {
+    computerMarker = "#tc";
+    }
+    if(xGuess === 0 && yGuess === 2) {
+    computerMarker = "#tl";
+    }
+    if(xGuess === 1 && yGuess === 0) {
+    computerMarker = "#mr";
+    }
+    if(xGuess === 1 && yGuess === 1) {
+    computerMarker = "#mc";
+    }
+    if(xGuess === 1 && yGuess === 2) {
+    computerMarker = "#ml";
+    }
+    if(xGuess === 2 && yGuess === 0) {
+    computerMarker = "#br";
+    }
+    if(xGuess === 2 && yGuess === 1) {
+    computerMarker = "#bc";
+    }
+    if(xGuess === 2 && yGuess === 2) {
+    computerMarker = "#bl";
+    }
+
+    if((!(board.isMarkedYet(xGuess, yGuess))) && (game.whoWins() === false)) {
+      game.board.mark(xGuess, yGuess, game.getTurns().marker);
+      $(computerMarker).text(game.getTurns().marker);
+      if (game.whoWins() === "draw") {
+        $("#results").text("It's a draw").addClass('animated bounceInLeft');
+        $("#score-div").hide();
+      }
+      else if(game.whoWins()) {
+        $("#score-div").hide();
+        $("#results").text(game.whoWins().marker + " wins!").addClass('animated bounceInLeft');
+      }
+
+    game.toggleTurns();
+    $(".turn").text(game.getTurns().marker);
+    }
+
+    else {
+      compuTurn();
+
+    }
+  };
 
 
+  $("#reset").click(function(event){
+    event.preventDefault();
+    $(".game-area").remove();
+    $("#results").removeClass('animated bounceInLeft').text("");
+    $("#score-div").hide();
+    $(".turn").text("");
+    $("#message").hide();
+    $("#computer").hide();
+    computerPlay = false;
+  });
 
-  });//end of play-click event
-
-});
+   });//end of submit event
+ });//end of file
