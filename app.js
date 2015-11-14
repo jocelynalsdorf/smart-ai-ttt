@@ -163,12 +163,106 @@ $(document).ready(function(){
       //change turn and show whose turn it is
       game.toggleTurns();
       $(".turn").text(game.getTurns().marker);
-//if they choose to play computer,start computers turn
+    //if they choose to play computer,start computers turn
       if((game.getTurns().marker === "O") && (computerPlay === true)) {
         compuTurn();
       }
     };
 
+    //click to mark on squares functions
+    $("#tr").on("click", function(){
+
+      if((!(board.isMarkedYet(0, 0))) && (game.whoWins() === false)) {
+        game.board.mark(0, 0, game.getTurns().marker);
+        $("#tr").text(game.getTurns().marker);
+        results();
+      }
+      nextMoves();
+    });
+
+    $("#tc").on("click", function(){
+
+      if((!(board.isMarkedYet(0, 1))) && (game.whoWins() === false)) {
+        game.board.mark(0, 1, game.getTurns().marker);
+        $("#tc").text(game.getTurns().marker);
+        results();
+      }
+      nextMoves();
+    });
+
+    $("#tl").on("click", function(){
+      if((!(board.isMarkedYet(0, 2))) && (game.whoWins() === false)) {
+        game.board.mark(0, 2, game.getTurns().marker);
+        $("#tl").text(game.getTurns().marker);
+        results();
+    }
+      nextMoves();
+    });
+
+    $("#mr").on("click", function(){
+      if((!(board.isMarkedYet(1, 0))) && (game.whoWins() === false)) {
+        game.board.mark(1, 0, game.getTurns().marker);
+        $("#mr").text(game.getTurns().marker);
+        results();
+    }
+      nextMoves();
+
+    });
+
+    $("#mc").on("click", function(){
+      if((!(board.isMarkedYet(1, 1))) && (game.whoWins() === false)) {
+        game.board.mark(1, 1, game.getTurns().marker);
+        $("#mc").text(game.getTurns().marker);
+        results();
+      }
+      nextMoves();
+
+    });
+
+    $("#ml").on("click", function(){
+      if((!(board.isMarkedYet(1, 2))) && (game.whoWins() === false)) {
+        game.board.mark(1, 2, game.getTurns().marker);
+        $("#ml").text(game.getTurns().marker);
+        results();
+      }
+      nextMoves();
+    });
+
+    $("#br").on("click", function(){
+      if((!(board.isMarkedYet(2, 0))) && (game.whoWins() === false)) {
+        game.board.mark(2, 0, game.getTurns().marker);
+        $("#br").text(game.getTurns().marker);
+        results();
+      }
+      nextMoves();
+
+    });
+
+    $("#bc").on("click", function(){
+      if((!(board.isMarkedYet(2, 1))) && (game.whoWins() === false)) {
+        game.board.mark(2, 1, game.getTurns().marker);
+        $("#bc").text(game.getTurns().marker);
+        results();
+      }
+      nextMoves();
+
+    });
+
+    $("#bl").on("click", function(){
+      if((!(board.isMarkedYet(2, 2))) && (game.whoWins() === false)) {
+        game.board.mark(2, 2, game.getTurns().marker);
+        $("#bl").text(game.getTurns().marker);
+        results();
+      }
+      nextMoves();
+    });
+
+    $("#computer").click(function(event){
+      event.preventDefault();
+      computerPlay = true;
+     $("#message").show().addClass('animated bounceInLeft');
+
+    });
 
 
 
