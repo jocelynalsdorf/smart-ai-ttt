@@ -149,6 +149,29 @@ $(document).ready(function(){
     $("#computer").show();
     $("#score-div").show();
 
+    var results = function() {
+      if(game.whoWins() === "draw") {
+        $("#results").text("It's a draw").addClass('animated bounceInLeft');
+        $("#score-div").hide();      
+      } else if(game.whoWins()){
+        $("#score-div").hide();
+        $("#results").text(game.whoWins().marker + " wins!").addClass("animated bounceInLeft");
+      }
+    };
+
+    var nextMoves = function(){
+      //change turn and show whose turn it is
+      game.toggleTurns();
+      $(".turn").text(game.getTurns().marker);
+//if they choose to play computer,start computers turn
+      if((game.getTurns().marker === "O") && (computerPlay === true)) {
+        compuTurn();
+      }
+    };
+
+
+
+
   });//end of play-click event
 
 });
