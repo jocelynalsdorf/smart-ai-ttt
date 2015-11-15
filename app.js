@@ -131,8 +131,8 @@ var makeBoardBackground = function(){
 $(document).ready(function(){
   //initialize as false so that players can choose to play the computer
   var computerPlay = false;
-  var xGuess;
-  var yGuess;
+  
+  var moveCount = 0;
   //hide any buttons or text that cause confusion on what options are
   $("#score-div").hide();
   $("#computer").hide();
@@ -163,11 +163,13 @@ $(document).ready(function(){
     };
 
     var nextMoves = function(){
+      moveCount += 1;
       //change turn and show whose turn it is
       game.toggleTurns();
       $(".turn").text(game.getTurns().marker);
     //if they choose to play computer,start computers turn
       if((game.getTurns().marker === "O") && (computerPlay === true)) {
+          moveCount += 1;
         compuTurn();
       }
     };
@@ -269,8 +271,40 @@ $(document).ready(function(){
     });
 var compuTurn = function() {
     var computerMarker;
-    var xGuess = Math.floor(Math.random() * 3);
-    var yGuess = Math.floor(Math.random() * 3);
+    var xGuess;
+     var yGuess;
+    if( (!board.isMarkedYet(1,1)) && (moveCount === 2) )  {
+      xGuess = 1;
+      yGuess = 1;
+    } else if ( moveCount === 2 ) {
+      xGuess = 0;
+      yGuess = 0;
+    } else if ( moveCount === 4 ){
+      console.log(game.board.board[0]);
+        if(JSON.stringify(game.board.board[0]) == JSON.stringify(["O", "X", null])) {
+          xGuess = 2;
+          yGuess = 1; 
+        } else if (JSON.stringify(game.board.board[0]) == JSON.stringify(["O", null, "X"])) {
+          xGuess = 2;
+          yGuess = 0;
+        } else if (JSON.stringify(game.board.board[1]) == JSON.stringify(["X", "X", null,])) {
+          xGuess = 1;
+          yGuess = 2;
+        } else if (JSON.stringify(game.board.board[1]) == JSON.stringify([null, "X", "X",])) {
+          xGuess = 1;
+          yGuess = 0;
+        } else if (JSON.stringify(game.board.board[2]) == JSON.stringify([null, "X", null,])) {
+          xGuess = 0;
+          yGuess = 1;
+        } else if (JSON.stringify(game.board.board[2]) == JSON.stringify([null, null, "X"])) {
+          xGuess = 0;
+          yGuess = 2;
+        } else if (JSON.stringify(game.board.board[2]) == JSON.stringify(["X", null, null])) {
+          xGuess = 0;
+          yGuess = 2;
+        }
+      
+    }
 
     if(xGuess === 0 && yGuess === 0) {
     computerMarker = "#tr";
@@ -299,6 +333,9 @@ var compuTurn = function() {
     if(xGuess === 2 && yGuess === 2) {
     computerMarker = "#bl";
     }
+
+    //console.log(game.board);
+    console.log(moveCount);
 
     if((!(board.isMarkedYet(xGuess, yGuess))) && (game.whoWins() === false)) {
       game.board.mark(xGuess, yGuess, game.getTurns().marker);
@@ -332,6 +369,7 @@ var compuTurn = function() {
     $("#message").hide();
     $("#computer").hide();
     computerPlay = false;
+    moveCount = 0;
   });
 
    });//end of submit event
